@@ -1,8 +1,7 @@
-
 package MODELO;
 
-
 public class Marca {
+
     private int id;
     private String marca;
 
@@ -14,8 +13,7 @@ public class Marca {
     public Marca(int id) {
         this.id = id;
     }
-    
-    
+
     public int getId() {
         return id;
     }
@@ -31,5 +29,17 @@ public class Marca {
     public void setMarca(String marca) {
         this.marca = marca;
     }
-    
+
+    @Override
+    public String toString() {
+        return """
+           *****************************
+           Id Marca:   %s
+           Marca:      %s
+           *****************************
+           """.formatted(
+                id,
+                marca != null ? marca : "N/A"
+        );
+    }
 }

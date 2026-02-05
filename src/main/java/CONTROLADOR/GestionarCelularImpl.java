@@ -110,9 +110,4 @@ public class GestionarCelularImpl implements GestionCelular {
         }
         return ce;
     }
-
-    
-    
-    
-
 }

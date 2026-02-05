@@ -1,7 +1,6 @@
 
 package CONTROLADOR;
 
-
 import MODELO.Cliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,12 +56,30 @@ public class GestionarClienteImpl implements GestionCliente{
 
     @Override
     public ArrayList<Cliente> listar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("");
+        return null;
     }
-
+   
     @Override
     public Cliente buscar(int id) {
-         
+        Cliente c = new Cliente();
+        GestionCelular gc = new GestionarCelularImpl();
+        try(Connection con = c.conectar()) {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select * from cliente where id=" + id);
+            while (rs.next()) {
+                c.setId(rs.getInt(1));
+                c.setNombre(rs.getString(2));
+                c.setIdentificacion(rs.getString(3));
+                c.setCorreo(rs.getString(4));
+                c.setTelefono(rs.getString(5));
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return c;
     }
     
 }
+

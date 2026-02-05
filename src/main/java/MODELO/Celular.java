@@ -3,6 +3,7 @@ package MODELO;
 
 
 public class Celular {
+
     private int id;
     private String modelo, OS, gama;
     private int stock;
@@ -20,10 +21,10 @@ public class Celular {
     }
 
     public Celular() {
-        
-    }
-    
 
+    }
+
+    
     public Marca getMarca() {
         return id_marca;
     }
@@ -79,5 +80,28 @@ public class Celular {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
-    
+
+    @Override
+    public String toString() {
+        return """
+           *****************************
+           Id:        %s
+           Modelo:    %s
+           OS:        %s
+           Gama:      %s
+           Stock:     %s
+           Precio:    %.2f
+           Marca ID:  %s
+           *****************************
+           """.formatted(
+                id,
+                modelo,
+                OS,
+                gama,
+                stock,
+                precio,
+                id_marca != null ? id_marca.getId() : "N/A"
+        );
+
+    }
 }

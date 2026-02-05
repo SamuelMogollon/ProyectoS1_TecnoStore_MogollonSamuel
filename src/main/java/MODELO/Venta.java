@@ -1,8 +1,7 @@
-
 package MODELO;
 
-
 public class Venta {
+
     private int id;
     private String fecha;
     private double total;
@@ -46,6 +45,21 @@ public class Venta {
     public void setId_cliente(Cliente id_cliente) {
         this.id_cliente = id_cliente;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return """
+           *****************************
+           Id:           %s
+           Fecha:        %s
+           Total:        %.2f
+           Cliente ID:   %s
+           *****************************
+           """.formatted(
+                id,
+                fecha,
+                total,
+                id_cliente != null ? id_cliente.getId() : "N/A"
+        );
+    }
 }

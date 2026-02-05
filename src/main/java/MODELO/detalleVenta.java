@@ -1,8 +1,7 @@
-
 package MODELO;
 
-
 public class detalleVenta {
+
     private int id;
     private int cantidad;
     private double subtotal;
@@ -56,6 +55,24 @@ public class detalleVenta {
     public void setId_celular(Celular id_celular) {
         this.id_celular = id_celular;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return """
+           *****************************
+           Id:            %s
+           Cantidad:      %s
+           Subtotal:      %.2f
+           Venta ID:      %s
+           Celular ID:    %s
+           *****************************
+           """.formatted(
+                id,
+                cantidad,
+                subtotal,
+                id_venta != null ? id_venta.getId() : "N/A",
+                id_celular != null ? id_celular.getId() : "N/A"
+        );
+    }
+
 }

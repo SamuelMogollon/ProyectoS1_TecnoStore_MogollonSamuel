@@ -1,10 +1,9 @@
-
 package MODELO;
 
 import java.sql.Connection;
 
-
 public class Cliente {
+
     private int id;
     private String nombre, identificacion, correo, telefono;
 
@@ -17,10 +16,8 @@ public class Cliente {
     }
 
     public Cliente() {
-        
+
     }
-    
-    
 
     public int getId() {
         return id;
@@ -65,5 +62,23 @@ public class Cliente {
     public Connection conectar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    @Override
+    public String toString() {
+        return """
+           *****************************
+           Id:             %s
+           Nombre:         %s
+           Identificación: %s
+           Correo:         %s
+           Teléfono:       %s
+           *****************************
+           """.formatted(
+                id,
+                nombre,
+                identificacion,
+                correo,
+                telefono
+        );
+    }
 }
