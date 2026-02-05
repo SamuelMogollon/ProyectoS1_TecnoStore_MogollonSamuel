@@ -1,16 +1,15 @@
-
 package MODELO;
-
 
 public class Celular {
 
     private int id;
-    private String modelo, OS, gama;
+    private String modelo, OS;
+    private Gama gama;
     private int stock;
     private double precio;
     private Marca id_marca;
 
-    public Celular(int id, String modelo, String OS, String gama, int stock, double precio, Marca id_marca) {
+    public Celular(int id, String modelo, String OS, Gama gama, int stock, double precio, Marca id_marca) {
         this.id = id;
         this.modelo = modelo;
         this.OS = OS;
@@ -24,7 +23,6 @@ public class Celular {
 
     }
 
-    
     public Marca getMarca() {
         return id_marca;
     }
@@ -57,11 +55,11 @@ public class Celular {
         this.OS = OS;
     }
 
-    public String getGama() {
+    public Gama getGama() {
         return gama;
     }
 
-    public void setGama(String gama) {
+    public void setGama(Gama gama) {
         this.gama = gama;
     }
 
@@ -70,6 +68,9 @@ public class Celular {
     }
 
     public void setStock(int stock) {
+        if (stock <= 0) {
+            throw new IllegalArgumentException("El stock debe ser mayor a 0");
+        }
         this.stock = stock;
     }
 
@@ -78,6 +79,9 @@ public class Celular {
     }
 
     public void setPrecio(double precio) {
+        if (precio <= 0) {
+            throw new IllegalArgumentException("El precio debe ser mayor a 0");
+        }
         this.precio = precio;
     }
 
@@ -104,4 +108,6 @@ public class Celular {
         );
 
     }
+
 }
+
