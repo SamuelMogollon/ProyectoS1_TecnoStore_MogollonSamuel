@@ -1,13 +1,20 @@
 package MODELO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Marca {
 
     private int id;
     private String marca;
+    
+    public static List<Marca> listaMarcas = new ArrayList<>();
+
 
     public Marca(int id, String marca) {
         this.id = id;
         this.marca = marca;
+        listaMarcas.add(this);
     }
 
     public Marca(int id) {
@@ -42,4 +49,13 @@ public class Marca {
                 marca != null ? marca : "N/A"
         );
     }
+    
+    public static void inicializarMarcas() {
+        if (listaMarcas.isEmpty()) {
+            Marca marca1 = new Marca(1, "Samsung");
+            Marca marca2 = new Marca(2, "Apple");
+            Marca marca3 = new Marca(3, "Motorola");
+        }
+    }
+    
 }

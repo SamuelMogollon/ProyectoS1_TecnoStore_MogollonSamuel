@@ -11,18 +11,24 @@ import javax.swing.JOptionPane;
 
 public class GestionarClienteImpl implements GestionCliente {
 
-    Conexion c = new Conexion();
+    private Conexion c = new Conexion();
 
     @Override
     public void guardar(Cliente c) {
         try (Connection con = c.conectar()) {
-            PreparedStatement ps = con.prepareStatement("insert into cliente(nombre, identificacion, correo, telefono) values (?,?,?,?)");
+
+            PreparedStatement ps = con.prepareStatement(
+                "INSERT INTO cliente (nombre, identificacion, correo, telefono) VALUES (?, ?, ?, ?)"
+            );
+
             ps.setString(1, c.getNombre());
             ps.setString(2, c.getIdentificacion());
             ps.setString(3, c.getCorreo());
             ps.setString(4, c.getTelefono());
+
             ps.executeUpdate();
-            System.out.println("REGISTRO EXITOSO!");
+            System.out.println("CLIENTE REGISTRADO CORRECTAMENTE");
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

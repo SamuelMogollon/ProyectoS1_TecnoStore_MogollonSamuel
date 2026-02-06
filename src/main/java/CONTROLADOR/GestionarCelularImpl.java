@@ -35,15 +35,21 @@ public class GestionarCelularImpl implements GestionCelular {
     @Override
     public void actualizar(Celular ce, int id) {
         try (Connection con = c.conectar()) {
-            PreparedStatement ps = con.prepareStatement("update celular set modelo=?, OS=?, gama=?, stock=?, precio=?, id_marca=? where id=?");
+
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE celular SET modelo=?, OS=?, gama=?, stock=?, precio=?, id_marca=? WHERE id=?"
+            );
+
             ps.setString(1, ce.getModelo());
             ps.setString(2, ce.getOS());
-            ps.setObject(3, ce.getGama());
-            ps.setString(4, String.valueOf(ce.getStock()));
-            ps.setString(5, String.valueOf(ce.getPrecio()));
-            ps.setString(6, String.valueOf(ce.getMarca().getId()));
+            ps.setString(3, ce.getGama().name());
+            ps.setInt(4, ce.getStock());
+            ps.setDouble(5, ce.getPrecio());
+            ps.setInt(6, ce.getMarca().getId());
+            ps.setInt(7, id);
+
             ps.executeUpdate();
-            System.out.println("ACTUALIZACION EXITOSA!");
+            System.out.println("ACTUALIZACIÓN EXITOSA!");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -55,7 +61,7 @@ public class GestionarCelularImpl implements GestionCelular {
         try (Connection con = c.conectar()) {
             PreparedStatement ps = con.prepareStatement("delete from celular where id=?");
             ps.setInt(1, id);
-            int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el area?", null, JOptionPane.YES_NO_OPTION);
+            int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el celular?", null, JOptionPane.YES_NO_OPTION);
             if (op == 0) {
                 ps.executeUpdate();
                 System.out.println("ELIMINACION EXITOSA!");
@@ -74,16 +80,18 @@ public class GestionarCelularImpl implements GestionCelular {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("select * from celular");
             while (rs.next()) {
-                Celular ce = new Celular();
-                ce.setId(rs.getInt("id"));
-                ce.setModelo(rs.getString("modelo"));
-                ce.setOS(rs.getString("os"));
-                ce.setGama((Gama) rs.getObject("gama"));
-                ce.setStock(rs.getInt("stock"));
-                ce.setPrecio(rs.getDouble("precio"));
-                ce.setMarca(new Marca(rs.getInt("id_marca")));
-            }
+                Celular ce = new Celular(
+                        rs.getInt("id"),
+                        rs.getString("modelo"),
+                        rs.getString("OS"),
+                        Gama.valueOf(rs.getString("gama")),
+                        rs.getInt("stock"),
+                        rs.getDouble("precio"),
+                        new Marca(rs.getInt("id_marca"))
+                );
 
+                celulares.add(ce);
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -92,17 +100,23 @@ public class GestionarCelularImpl implements GestionCelular {
 
     @Override
     public Celular buscar(int id) {
-        Celular ce = new Celular();
+        Celular ce = null;
         try (Connection con = c.conectar()) {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from celular where id=" + id);
-            while (rs.next()) {
-                ce.setId(rs.getInt(1));
-                ce.setModelo(rs.getString(2));
-                ce.setOS(rs.getString(3));
-                ce.setGama((Gama) rs.getObject(4));
-                ce.setStock(rs.getInt(5));
-                ce.setPrecio(rs.getDouble(6));
+            PreparedStatement ps = con.prepareStatement(
+                    "SELECT * FROM celular WHERE id = ?"
+            );
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                ce = new Celular();
+                ce.setId(rs.getInt("id"));
+                ce.setModelo(rs.getString("modelo"));
+                ce.setOS(rs.getString("OS"));
+                ce.setGama(Gama.valueOf(rs.getString("gama")));
+                ce.setStock(rs.getInt("stock"));
+                ce.setPrecio(rs.getDouble("precio"));
+                ce.setMarca(new Marca(rs.getInt("id_marca")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
