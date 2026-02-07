@@ -11,30 +11,36 @@ public class DetalleVentaController {
 
     private Conexion c = new Conexion();
 
-    public double registrarDetalles(Venta ve, List<Celular> celulares) {
+    public double registrarDetalles(
+            Venta ve,
+            List<Celular> celulares,
+            List<Integer> cantidades
+    ) {
+
         double total = 0;
 
         try (Connection con = c.conectar()) {
 
-            for (Celular ce : celulares) {
+            for (int i = 0; i < celulares.size(); i++) {
 
-                double subtotal = ce.getPrecio(); // si quieres cantidad >1, multiplicas aquí
+                Celular ce = celulares.get(i);
+                int cantidad = cantidades.get(i); 
+
+                double subtotal = ce.getPrecio() * cantidad;
                 total += subtotal;
 
-                // Insertar detalle
                 PreparedStatement psDetalle = con.prepareStatement(
                         "INSERT INTO detalleVentas (id_venta, id_celular, cantidad, subtotal) VALUES (?, ?, ?, ?)"
                 );
                 psDetalle.setInt(1, ve.getId());
                 psDetalle.setInt(2, ce.getId());
-                psDetalle.setInt(3, 1); // cantidad por defecto
+                psDetalle.setInt(3, cantidad);
                 psDetalle.setDouble(4, subtotal);
                 psDetalle.executeUpdate();
 
-                // Actualizar stock
-                ce.setStock(ce.getStock() - 1);
+                ce.setStock(ce.getStock() - cantidad);
                 PreparedStatement psStock = con.prepareStatement(
-                        "UPDATE celulares SET stock = ? WHERE id = ?"
+                        "UPDATE celular SET stock=? WHERE id=?"
                 );
                 psStock.setInt(1, ce.getStock());
                 psStock.setInt(2, ce.getId());
@@ -42,10 +48,9 @@ public class DetalleVentaController {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error en registrarDetalles: " + e.getMessage());
+            System.out.println("Error registrando detalles: " + e.getMessage());
         }
 
-        // Devolver el total de la venta para actualizar en la tabla ventas
-        return total * 1.19; // incluye IVA
+        return total * 1.19;
     }
 }
