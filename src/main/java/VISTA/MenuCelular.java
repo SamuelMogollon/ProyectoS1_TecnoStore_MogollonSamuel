@@ -181,17 +181,18 @@ public class MenuCelular {
         int op = 0;
         do {
             System.out.println("""
-                           ******************************
-                           *        MENÚ CELULAR        *
-                           ******************************
-                           *[1]   Registrar.            *
-                           *[2]   Actualizar.           *
-                           *[3]   Eliminar.             *
-                           *[4]   Listar.               *
-                           *[5]   Buscar.               *
-                           *[6]   Regresar.             *
-                           ******************************
+                           *****************************************
+                           *              MENÚ CELULAR             *
+                           *****************************************
+                           * [1] Registrar.                        *
+                           * [2] Actualizar.                       *
+                           * [3] Eliminar.                         *
+                           * [4] Listar.                           *
+                           * [5] Buscar.                           *
+                           * [6] Regresar.                         *
+                           *****************************************
                            """);
+            System.out.print("➤ Selecciona una opción: ");
             op = new Scanner(System.in).nextInt();
             while (op < 1 || op > 6) {
                 System.out.println("Error, opcion no valida");

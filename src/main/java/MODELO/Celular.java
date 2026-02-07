@@ -88,7 +88,7 @@ public class Celular {
     @Override
     public String toString() {
         return """
-           *****************************
+           *****************************************
            Id:        %s
            Modelo:    %s
            OS:        %s
@@ -96,7 +96,7 @@ public class Celular {
            Stock:     %s
            Precio:    %.2f
            Marca ID:  %s
-           *****************************
+           *****************************************
            """.formatted(
                 id,
                 modelo,

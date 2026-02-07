@@ -1,20 +1,25 @@
 package MODELO;
 
-public class detalleVenta {
+public class DetalleVenta {
 
     private int id;
     private int cantidad;
     private double subtotal;
-    private Venta id_venta;
-    private Celular id_celular;
+    private Venta venta;
+    private Celular celular;
 
-    public detalleVenta(int id, int cantidad, double subtotal, Venta id_venta, Celular id_celular) {
+    public DetalleVenta(int id, int cantidad, double subtotal, Venta venta, Celular celular) {
         this.id = id;
         this.cantidad = cantidad;
         this.subtotal = subtotal;
-        this.id_venta = id_venta;
-        this.id_celular = id_celular;
+        this.venta = venta;
+        this.celular = celular;
     }
+
+    public DetalleVenta() {
+    }
+    
+    
 
     public int getId() {
         return id;
@@ -41,19 +46,19 @@ public class detalleVenta {
     }
 
     public Venta getId_venta() {
-        return id_venta;
+        return venta;
     }
 
-    public void setId_venta(Venta id_venta) {
-        this.id_venta = id_venta;
+    public void setId_venta(Venta venta) {
+        this.venta = venta;
     }
 
     public Celular getId_celular() {
-        return id_celular;
+        return celular;
     }
 
-    public void setId_celular(Celular id_celular) {
-        this.id_celular = id_celular;
+    public void setId_celular(Celular celular) {
+        this.celular = celular;
     }
 
     @Override
@@ -70,8 +75,8 @@ public class detalleVenta {
                 id,
                 cantidad,
                 subtotal,
-                id_venta != null ? id_venta.getId() : "N/A",
-                id_celular != null ? id_celular.getId() : "N/A"
+                venta != null ? venta.getId() : "N/A",
+                celular != null ? celular.getId() : "N/A"
         );
     }
 

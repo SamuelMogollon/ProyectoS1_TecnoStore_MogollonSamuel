@@ -66,13 +66,13 @@ public class Cliente {
     @Override
     public String toString() {
         return """
-           *****************************
-           Id:             %s
-           Nombre:         %s
-           Identificación: %s
-           Correo:         %s
-           Teléfono:       %s
-           *****************************
+           *****************************************
+            Id:             %s                    
+            Nombre:         %s                    
+            Identificación: %s                    
+            Correo:         %s                    
+            Teléfono:       %s                    
+           *****************************************
            """.formatted(
                 id,
                 nombre,

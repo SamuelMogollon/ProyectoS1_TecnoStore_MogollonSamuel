@@ -13,26 +13,28 @@ public class Menu {
                            *****************************************
                            * [1] Gestión de celulares.             *
                            * [2] Gestión de clientes.              *
-                           * [3] Gestión de ventas.                *
+                           * [3] registrar venta.                  *
                            * [4] Reportes y análisis.              *
                            * [0] Salir.                            *
                            *****************************************
                            """);
-            System.out.print("➤ Selecciona una opción: ");
+            System.out.print("➤ Seleccione una opción: ");
             op = new Scanner(System.in).nextInt();
             while (op < -1 || op > 4) {
                 System.out.println("Error, opcion no valida");
             }
             switch (op) {
-                case 1:
+                case 1 -> {
                     MenuCelular ce = new MenuCelular();
                     ce.menuCelular();
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     MenuCliente c = new MenuCliente();
                     c.menuCliente();
-                    break;
-                case 3:
+                }
+                case 3 -> {
+                    MenuVenta.GestionVentas();
+                }
             }
         }while( op != 0 );
     }

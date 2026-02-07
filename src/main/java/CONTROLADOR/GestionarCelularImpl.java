@@ -76,6 +76,7 @@ public class GestionarCelularImpl implements GestionCelular {
     @Override
     public ArrayList<Celular> listar() {
         ArrayList<Celular> celulares = new ArrayList<>();
+        
         try (Connection con = c.conectar()) {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("select * from celular");
@@ -118,6 +119,7 @@ public class GestionarCelularImpl implements GestionCelular {
                 ce.setPrecio(rs.getDouble("precio"));
                 ce.setMarca(new Marca(rs.getInt("id_marca")));
             }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
