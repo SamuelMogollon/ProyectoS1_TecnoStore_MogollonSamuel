@@ -80,7 +80,7 @@ public class MenuCliente {
         if (c != null) {
             System.out.println(c);
         } else {
-            System.out.println("No existe dicha area!");
+            System.out.println("No existe dicho cliente!");
         }
     }
     

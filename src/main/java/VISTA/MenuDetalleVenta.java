@@ -1,53 +1,57 @@
 package VISTA;
 
-import CONTROLADOR.DetalleVentaController;
-import CONTROLADOR.GestionarCelularImpl;
+import CONTROLADOR.Conexion;
 import MODELO.Celular;
 import MODELO.Venta;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
 
 public class MenuDetalleVenta {
+    
+    private Conexion c = new Conexion();
 
-    public static void registrarDetalles(Scanner sc, Venta ve) {
-        DetalleVentaController dvc = new DetalleVentaController();
-        GestionarCelularImpl gestorCelular = new GestionarCelularImpl();
+    public double registrarDetalles(Venta venta, List<Celular> celulares, List<Integer> cantidades) {
 
-        List<Celular> celulares = new ArrayList<>();
-        List<Integer> cantidades = new ArrayList<>();
+        
+        double total = 0;
 
-        boolean agregar = true;
-        while (agregar) {
-            System.out.print("Ingrese ID del celular: ");
-            int idCel = Integer.parseInt(sc.nextLine());
+        try (Connection con = c.conectar()) {
 
-            Celular ce = gestorCelular.buscar(idCel);
-            if (ce == null) {
-                System.out.println("Celular no encontrado");
-                continue;
+            for (int i = 0; i < celulares.size(); i++) {
+
+                Celular ce = celulares.get(i);
+                int cantidad = cantidades.get(i);
+
+                double subtotal = ce.getPrecio() * cantidad;
+                total += subtotal;
+
+                
+                PreparedStatement psDetalle = con.prepareStatement(
+                        "INSERT INTO detalleVenta (cantidad, subtotal, id_venta, id_celular) VALUES (?, ?, ?, ?)"
+                );
+
+                psDetalle.setInt(1, cantidad);
+                psDetalle.setDouble(2, subtotal);
+                psDetalle.setInt(3, venta.getId());
+                psDetalle.setInt(4, ce.getId());
+                psDetalle.executeUpdate();
+
+                
+                PreparedStatement psStock = con.prepareStatement(
+                        "UPDATE celulares SET stock = stock - ? WHERE id = ?"
+                );
+
+                psStock.setInt(1, cantidad);
+                psStock.setInt(2, ce.getId());
+                psStock.executeUpdate();
             }
 
-            System.out.print("Ingrese cantidad: ");
-            int cant = Integer.parseInt(sc.nextLine());
-
-            if (cant <= 0 || cant > ce.getStock()) {
-                System.out.println("Cantidad inválida o stock insuficiente");
-                continue;
-            }
-
-            celulares.add(ce); 
-            cantidades.add(cant);
-
-            System.out.print("¿Desea agregar otro celular? (S/N): ");
-            agregar = sc.nextLine().equalsIgnoreCase("S");
+        } catch (SQLException e) {
+            System.out.println("Error al registrar detalles: " + e.getMessage());
         }
 
-        double totalFinal = dvc.registrarDetalles(ve, celulares, cantidades);
-
-        System.out.println("Venta registrada con éxito");
-        System.out.println("Total con IVA: $" + totalFinal);
-
-        System.out.println("Venta registrada con éxito! Total con IVA: " + totalFinal);
+        return total * 1.19; // IVA
     }
 }

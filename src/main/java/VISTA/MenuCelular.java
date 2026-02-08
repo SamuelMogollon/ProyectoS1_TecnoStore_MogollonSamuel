@@ -90,7 +90,7 @@ public class MenuCelular {
     }
 
     public void actualizarCe() {
-        System.out.println("➤ Ingrese el id de el celular a buscar: ");
+        System.out.println("➤ Ingrese el id de el celular a actualizar: ");
         int id = new Scanner(System.in).nextInt();
         Celular ce = gc.buscar(id);
         if (ce != null) {

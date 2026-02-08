@@ -93,20 +93,37 @@ public class GestionarClienteImpl implements GestionCliente {
 
     @Override
     public Cliente buscar(int id) {
-        Cliente cli = new Cliente();
+
+        Cliente cli = null;
+
         try (Connection con = c.conectar()) {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from cliente where id=" + id);
-            while (rs.next()) {
-                cli.setId(rs.getInt(1));
-                cli.setNombre(rs.getString(2));
-                cli.setIdentificacion(rs.getString(3));
-                cli.setCorreo(rs.getString(4));
-                cli.setTelefono(rs.getString(5));
+
+            PreparedStatement ps = con.prepareStatement(
+                    "SELECT * FROM cliente WHERE id = ?"
+            );
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                cli = new Cliente(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("identificacion"),
+                        rs.getString("correo"),
+                        rs.getString("telefono")
+                );
+            } else {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "❌ El cliente con ID " + id + " no existe"
+                );
             }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return cli;
     }
 

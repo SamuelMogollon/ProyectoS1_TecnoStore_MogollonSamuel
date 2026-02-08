@@ -24,18 +24,19 @@ public class DetalleVentaController {
             for (int i = 0; i < celulares.size(); i++) {
 
                 Celular ce = celulares.get(i);
-                int cantidad = cantidades.get(i); 
+                int cantidad = cantidades.get(i);
 
                 double subtotal = ce.getPrecio() * cantidad;
                 total += subtotal;
 
                 PreparedStatement psDetalle = con.prepareStatement(
-                        "INSERT INTO detalleVentas (id_venta, id_celular, cantidad, subtotal) VALUES (?, ?, ?, ?)"
+                        "INSERT INTO detalleVenta (cantidad, subtotal,id_venta, id_celular) VALUES (?, ?, ?, ?)"
                 );
-                psDetalle.setInt(1, ve.getId());
-                psDetalle.setInt(2, ce.getId());
+
                 psDetalle.setInt(3, cantidad);
                 psDetalle.setDouble(4, subtotal);
+                psDetalle.setInt(1, ve.getId());
+                psDetalle.setInt(2, ce.getId());
                 psDetalle.executeUpdate();
 
                 ce.setStock(ce.getStock() - cantidad);
