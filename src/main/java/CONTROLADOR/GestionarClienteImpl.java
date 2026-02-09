@@ -37,11 +37,20 @@ public class GestionarClienteImpl implements GestionCliente {
     @Override
     public void actualizar(Cliente cli, int id) {
         try (Connection con = c.conectar()) {
-            PreparedStatement ps = con.prepareStatement("update cliente set nombre=?, identificacion=?, correo=?, telefono=? where id=?");
+            PreparedStatement ps = con.prepareStatement(
+                    "UPDATE cliente SET nombre=?, identificacion=?, correo=?, telefono=? WHERE id=?"
+            );
             ps.setString(1, cli.getNombre());
             ps.setString(2, cli.getIdentificacion());
             ps.setString(3, cli.getCorreo());
             ps.setString(4, cli.getTelefono());
+            ps.setInt(5, id); // 
+            int filas = ps.executeUpdate(); 
+            if (filas > 0) {
+                System.out.println("CLIENTE ACTUALIZADO CORRECTAMENTE");
+            } else {
+                System.out.println("No se encontró ningún cliente con el ID " + id);
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

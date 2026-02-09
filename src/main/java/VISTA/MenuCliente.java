@@ -58,14 +58,17 @@ public class MenuCliente {
                     System.out.println("Ingrese la identificación: ");
                     c.setIdentificacion(new Scanner(System.in).nextLine());
                     System.out.println("Identificación cambiada a "+c.getIdentificacion());
+                    break;
                 case 3:
                     System.out.println("Ingrese el correo: ");
                     c.setCorreo(new Scanner(System.in).nextLine());
                     System.out.println("Correo cambiado a" +c.getCorreo());
+                    break;
                 case 4:
                     System.out.println("Ingrese el telefono: ");
                     c.setTelefono(new Scanner(System.in).nextLine());
                     System.out.println("Telefono cambiado a " +c.getTelefono());
+                    break;
             }
             gcli.actualizar(c, id);
         }else{

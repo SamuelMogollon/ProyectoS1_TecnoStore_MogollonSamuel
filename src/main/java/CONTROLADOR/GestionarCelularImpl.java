@@ -21,7 +21,7 @@ public class GestionarCelularImpl implements GestionCelular {
             PreparedStatement ps = con.prepareStatement("insert into celular(modelo, OS, gama, stock, precio, id_marca) values (?,?,?,?,?,?)");
             ps.setString(1, ce.getModelo());
             ps.setString(2, ce.getOS());
-            ps.setObject(3, ce.getGama());
+            ps.setString(3, ce.getGama().name());
             ps.setString(4, String.valueOf(ce.getStock()));
             ps.setString(5, String.valueOf(ce.getPrecio()));
             ps.setString(6, String.valueOf(ce.getMarca().getId()));

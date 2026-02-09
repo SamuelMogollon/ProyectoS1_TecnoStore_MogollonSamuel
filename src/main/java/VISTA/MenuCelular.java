@@ -8,7 +8,6 @@ import MODELO.Gama;
 import java.util.ArrayList;
 import MODELO.Marca;
 
-
 public class MenuCelular {
 
     GestionCelular gc = new GestionarCelularImpl();
@@ -86,7 +85,9 @@ public class MenuCelular {
         }
 
         ce.setMarca(marcaSeleccionada);
-
+        ce.setGama(gama);
+        gc.guardar(ce);
+        System.out.println("CELULAR REGISTRADO EXITOSAMENTE!!");
     }
 
     public void actualizarCe() {
@@ -120,11 +121,13 @@ public class MenuCelular {
                     System.out.println("Ingrese el nuevo modelo: ");
                     ce.setModelo(new Scanner(System.in).nextLine());
                     System.out.println("Modelo cambiado a " + ce.getModelo());
+                    break;
                 }
                 case 2 -> {
                     System.out.println("Ingrese el sistema operativo: ");
                     ce.setOS(new Scanner(System.in).nextLine());
                     System.out.println("Sistema operativo actualizado a " + ce.getOS());
+                    break;
                 }
                 case 3 -> {
                     System.out.println("Ingrese la nueva Gama: (BAJA, MEDIA, ALTA)");
@@ -135,16 +138,19 @@ public class MenuCelular {
                     } catch (IllegalArgumentException e) {
                         System.out.println("Opción inválida. Debe ser (BAJA, MEDIA o ALTA)");
                     }
+                    break;
                 }
                 case 4 -> {
                     System.out.println("Ingrese la nueva cantidad: ");
                     ce.setStock(new Scanner(System.in).nextInt());
                     System.out.println("Cantidad actualizada a" + ce.getStock());
+                    break;
                 }
                 case 5 -> {
                     System.out.println("Ingrese el nuevo precio: ");
                     ce.setPrecio(new Scanner(System.in).nextDouble());
                     System.out.println("Precio actualizado a" + ce.getPrecio());
+                    break;
                 }
             }
             gc.actualizar(ce, id);
