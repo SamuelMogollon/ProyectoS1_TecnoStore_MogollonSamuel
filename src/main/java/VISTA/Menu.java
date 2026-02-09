@@ -35,6 +35,9 @@ public class Menu {
                 case 3 -> {
                     MenuVenta.GestionVentas();
                 }
+                case 4 -> {
+                    MenuReporte.menuReportes();
+                }
             }
         }while( op != 0 );
     }

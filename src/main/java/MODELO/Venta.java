@@ -1,11 +1,18 @@
 package MODELO;
 
-public class Venta {
+import java.io.Serializable;
+
+public class Venta implements Serializable{
+    
+    private static final long serialVersionUID = 1L;    
 
     private int id;
     private String fecha;
     private double total;
     private Cliente id_cliente;
+
+    public Venta() {
+    }
 
     public Venta(int id, String fecha, double total, Cliente id_cliente) {
         this.id = id;

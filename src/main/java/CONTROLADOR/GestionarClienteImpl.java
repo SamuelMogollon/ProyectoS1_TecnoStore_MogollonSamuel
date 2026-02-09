@@ -116,7 +116,7 @@ public class GestionarClienteImpl implements GestionCliente {
             } else {
                 JOptionPane.showMessageDialog(
                         null,
-                        "❌ El cliente con ID " + id + " no existe"
+                        "El cliente con ID " + id + " no existe"
                 );
             }
 
