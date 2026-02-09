@@ -30,7 +30,7 @@ public class DetalleVentaController {
                 total += subtotal;
 
                 PreparedStatement psDetalle = con.prepareStatement(
-                        "INSERT INTO detalleVenta (cantidad, subtotal,id_venta, id_celular) VALUES (?, ?, ?, ?)"
+                        "INSERT INTO detalleVenta (cantidad, subtotal, id_venta, id_celular) VALUES (?, ?, ?, ?)"
                 );
 
                 psDetalle.setInt(3, cantidad);

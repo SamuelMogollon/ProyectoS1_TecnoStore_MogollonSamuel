@@ -18,14 +18,15 @@ public class VentaController {
         return subtotal * 1.19;
     }
 
-    public void registrarVenta(Cliente cli, Celular ce) {
+    public void registrarVenta(Cliente cli, Celular ce, int cantidad) {
 
         try (Connection con = c.conectar()) {
 
-            double total = calcularTotalIVA(ce.getPrecio());
+            double subtotal = ce.getPrecio() * cantidad;
+            double total = subtotal * 1.19;
             String fecha = java.time.LocalDate.now().toString();
 
-            // 1️⃣ Insertar venta
+            
             PreparedStatement psVenta = con.prepareStatement(
                     "INSERT INTO ventas (fecha, total, id_cliente) VALUES (?, ?, ?)",
                     PreparedStatement.RETURN_GENERATED_KEYS
@@ -36,41 +37,29 @@ public class VentaController {
             psVenta.setInt(3, cli.getId());
             psVenta.executeUpdate();
 
-            // 2️⃣ Obtener ID de venta
+            
             ResultSet rs = psVenta.getGeneratedKeys();
             if (!rs.next()) {
                 throw new SQLException("No se pudo obtener el ID de la venta");
             }
 
             int idVenta = rs.getInt(1);
-            Venta venta = new Venta(idVenta, fecha, total, cli);
 
-            // 3️⃣ Crear detalle venta
-            DetalleVenta dv = new DetalleVenta(
-                    0,
-                    1,
-                    ce.getPrecio(),
-                    venta,
-                    ce
-            );
-
-            // 4️⃣ Insertar detalle venta
             PreparedStatement psDetalle = con.prepareStatement(
                     "INSERT INTO detalleVenta (cantidad, subtotal, id_venta, id_celular) VALUES (?, ?, ?, ?)"
             );
 
-            psDetalle.setInt(1, dv.getCantidad());
-            psDetalle.setDouble(2, dv.getSubtotal());
-            psDetalle.setInt(3, dv.getId_venta().getId());
-            psDetalle.setInt(4, dv.getId_celular().getId());
+            psDetalle.setInt(1, cantidad);
+            psDetalle.setDouble(2, subtotal);
+            psDetalle.setInt(3, idVenta);
+            psDetalle.setInt(4, ce.getId());
             psDetalle.executeUpdate();
 
-            // 5️⃣ Actualizar stock
             PreparedStatement psStock = con.prepareStatement(
-                    "UPDATE celular SET stock = stock - 1 WHERE id = ?"
+                    "UPDATE celular SET stock = stock - ? WHERE id = ?"
             );
-
-            psStock.setInt(1, ce.getId());
+            psStock.setInt(1, cantidad);
+            psStock.setInt(2, ce.getId());
             psStock.executeUpdate();
 
         } catch (SQLException e) {
