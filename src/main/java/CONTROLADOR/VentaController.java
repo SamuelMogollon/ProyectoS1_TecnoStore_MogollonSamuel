@@ -2,8 +2,6 @@ package CONTROLADOR;
 
 import MODELO.Celular;
 import MODELO.Cliente;
-import MODELO.DetalleVenta;
-import MODELO.Venta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +24,6 @@ public class VentaController {
             double total = subtotal * 1.19;
             String fecha = java.time.LocalDate.now().toString();
 
-            
             PreparedStatement psVenta = con.prepareStatement(
                     "INSERT INTO ventas (fecha, total, id_cliente) VALUES (?, ?, ?)",
                     PreparedStatement.RETURN_GENERATED_KEYS
@@ -37,7 +34,6 @@ public class VentaController {
             psVenta.setInt(3, cli.getId());
             psVenta.executeUpdate();
 
-            
             ResultSet rs = psVenta.getGeneratedKeys();
             if (!rs.next()) {
                 throw new SQLException("No se pudo obtener el ID de la venta");

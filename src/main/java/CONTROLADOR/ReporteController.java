@@ -35,7 +35,7 @@ public class ReporteController {
 
         Map<String, Integer> vendidos = detalles.stream()
                 .collect(Collectors.groupingBy(
-                        d -> d.getId_celular().getModelo(),
+                        d -> d.getCelular().getModelo(),
                         Collectors.summingInt(DetalleVenta::getCantidad)
                 ));
 

@@ -9,16 +9,16 @@ public class Venta implements Serializable{
     private int id;
     private String fecha;
     private double total;
-    private Cliente id_cliente;
+    private Cliente cliente;
 
     public Venta() {
     }
 
-    public Venta(int id, String fecha, double total, Cliente id_cliente) {
+    public Venta(int id, String fecha, double total, Cliente cliente) {
         this.id = id;
         this.fecha = fecha;
         this.total = total;
-        this.id_cliente = id_cliente;
+        this.cliente = cliente;
     }
     
 
@@ -46,12 +46,12 @@ public class Venta implements Serializable{
         this.total = total;
     }
 
-    public Cliente getId_cliente() {
-        return id_cliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setId_cliente(Cliente id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Venta implements Serializable{
                 id,
                 fecha,
                 total,
-                id_cliente != null ? id_cliente.getId() : "N/A"
+                cliente != null ? cliente.getId() : "N/A"
         );
     }
 }

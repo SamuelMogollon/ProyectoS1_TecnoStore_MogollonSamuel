@@ -76,10 +76,14 @@ public class GestionarCelularImpl implements GestionCelular {
     @Override
     public ArrayList<Celular> listar() {
         ArrayList<Celular> celulares = new ArrayList<>();
-        
+
         try (Connection con = c.conectar()) {
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from celular");
+            ResultSet rs = st.executeQuery("""
+                                           SELECT c.*, m.marca AS nombre_marca
+                                           FROM celular c
+                                           JOIN marca m ON c.id_marca = m.id;
+                                           """);
             while (rs.next()) {
                 Celular ce = new Celular(
                         rs.getInt("id"),
@@ -88,7 +92,7 @@ public class GestionarCelularImpl implements GestionCelular {
                         Gama.valueOf(rs.getString("gama")),
                         rs.getInt("stock"),
                         rs.getDouble("precio"),
-                        new Marca(rs.getInt("id_marca"))
+                        new Marca(rs.getInt("id_marca"), rs.getString("nombre_marca"))
                 );
 
                 celulares.add(ce);
