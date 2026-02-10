@@ -1,6 +1,7 @@
 package CONTROLADOR;
 
 import MODELO.Cliente;
+import static java.lang.System.gc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,7 +46,7 @@ public class GestionarClienteImpl implements GestionCliente {
             ps.setString(3, cli.getCorreo());
             ps.setString(4, cli.getTelefono());
             ps.setInt(5, id); // 
-            int filas = ps.executeUpdate(); 
+            int filas = ps.executeUpdate();
             if (filas > 0) {
                 System.out.println("CLIENTE ACTUALIZADO CORRECTAMENTE");
             } else {

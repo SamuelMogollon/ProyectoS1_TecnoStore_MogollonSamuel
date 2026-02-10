@@ -337,5 +337,4 @@ public class MenuVenta {
 
         System.out.println("=====================================================");
     }
-
 }

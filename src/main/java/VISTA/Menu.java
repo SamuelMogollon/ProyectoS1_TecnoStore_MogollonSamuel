@@ -6,9 +6,8 @@ public class Menu {
 
     public void MenuPrincipal() {
         Scanner sc = new Scanner(System.in);
-        int op;
-        do {
-            System.out.println("""
+        int opcion = -1;
+        System.out.println("""
                                *****************************************
                                *        TECNOSTORE CAMPUSLANDS         * 
                                *****************************************
@@ -19,16 +18,17 @@ public class Menu {
                                * [0] Salir.                            *
                                *****************************************
                                """);
+        do {
             System.out.print("➤ Seleccione una opción: ");
-            op = sc.nextInt();
-            sc.nextLine();
-            while (op < 0 || op > 4) {
-                System.out.println("Error, opcion no valida");
-                System.out.print("➤ Seleccione una opción: ");
-                op = sc.nextInt();
-                sc.nextLine();
+            String input = sc.nextLine();
+            try {
+                opcion = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Opción inválida, debe ingresar un número.");
+                continue; // vuelve a pedir opción
             }
-            switch (op) {
+
+            switch (opcion) {
                 case 1 -> {
                     MenuCelular ce = new MenuCelular();
                     ce.menuCelular();
@@ -44,7 +44,9 @@ public class Menu {
                     MenuReporte.menuReportes();
                 }
             }
-        } while (op != 0);
+
+        } while (opcion != 0);
+
     }
 
 }

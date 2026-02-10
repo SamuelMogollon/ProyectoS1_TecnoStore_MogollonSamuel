@@ -1,15 +1,19 @@
 package MODELO;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Venta implements Serializable{
-    
-    private static final long serialVersionUID = 1L;    
+public class Venta implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
     private String fecha;
     private double total;
     private Cliente cliente;
+
+    private List<DetalleVenta> detalleVentas = new ArrayList<>();
 
     public Venta() {
     }
@@ -20,7 +24,6 @@ public class Venta implements Serializable{
         this.total = total;
         this.cliente = cliente;
     }
-    
 
     public int getId() {
         return id;
@@ -69,5 +72,17 @@ public class Venta implements Serializable{
                 total,
                 cliente != null ? cliente.getId() : "N/A"
         );
+    }
+
+    public List<DetalleVenta> getDetalleVentas() {
+        return detalleVentas;
+    }
+
+    public void setDetalleVentas(List<DetalleVenta> detalleVentas) {
+        this.detalleVentas = detalleVentas;
+    }
+
+    public void agregarDetalle(DetalleVenta detalle) {
+        this.detalleVentas.add(detalle);
     }
 }

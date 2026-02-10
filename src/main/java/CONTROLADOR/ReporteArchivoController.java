@@ -28,7 +28,7 @@ public class ReporteArchivoController {
 
             } catch (Exception e) {
                 System.out.println("Error al generar el archivo de reporte");
-            }
+            }   
         }else{
             System.out.println("No se guardó reporte");
         }

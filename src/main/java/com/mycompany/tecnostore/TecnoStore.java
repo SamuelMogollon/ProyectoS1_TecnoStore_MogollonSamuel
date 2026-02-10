@@ -1,10 +1,6 @@
-
-
 package com.mycompany.tecnostore;
 
-import CONTROLADOR.Conexion;
 import VISTA.Menu;
-
 
 public class TecnoStore {
 
