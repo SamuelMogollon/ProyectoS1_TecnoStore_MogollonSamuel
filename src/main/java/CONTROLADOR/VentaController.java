@@ -9,7 +9,6 @@ import java.sql.SQLException;
 
 public class VentaController {
 
-    String fecha = java.time.LocalDate.now().toString();
     private Conexion c = new Conexion();
 
     public double calcularTotalIVA(double subtotal) {

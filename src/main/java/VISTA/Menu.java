@@ -1,10 +1,11 @@
 package VISTA;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
 
-    public void MenuPrincipal() {
+    public void MenuPrincipal() throws IOException {
         Scanner sc = new Scanner(System.in);
         int opcion = -1;
         System.out.println("""

@@ -118,7 +118,7 @@ public class MenuVenta {
 
                     Venta v = gv.buscar(idVenta);
                     if (v == null) {
-                        System.out.println("❌ La venta con ID " + idVenta + " no existe.");
+                        System.out.println("La venta con ID " + idVenta + " no existe.");
                         break;
                     }
                     gv.eliminarVentaa(idVenta);
