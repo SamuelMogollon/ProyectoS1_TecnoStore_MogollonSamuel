@@ -7,6 +7,7 @@ import java.util.Scanner;
 import MODELO.Gama;
 import java.util.ArrayList;
 import MODELO.Marca;
+import java.util.List;
 
 public class MenuCelular {
 
@@ -91,6 +92,7 @@ public class MenuCelular {
     }
 
     public void actualizarCe() {
+        List<Celular> celulares = gc.listar();
         System.out.println("➤ Ingrese el id de el celular a actualizar: ");
         int id = new Scanner(System.in).nextInt();
         Celular ce = gc.buscar(id);
@@ -207,10 +209,14 @@ public class MenuCelular {
             switch (op) {
                 case 1 ->
                     registrarCe();
-                case 2 ->
+                case 2 -> {
+                    listarCe();
                     actualizarCe();
-                case 3 ->
+                }
+                case 3 -> {
+                    listarCe();
                     eliminarCe();
+                }
                 case 4 ->
                     listarCe();
                 case 5 ->

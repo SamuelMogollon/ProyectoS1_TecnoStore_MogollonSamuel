@@ -8,7 +8,8 @@ public class Menu {
     public void MenuPrincipal() throws IOException {
         Scanner sc = new Scanner(System.in);
         int opcion = -1;
-        System.out.println("""
+        do {
+            System.out.println("""
                                *****************************************
                                *        TECNOSTORE CAMPUSLANDS         * 
                                *****************************************
@@ -19,7 +20,6 @@ public class Menu {
                                * [0] Salir.                            *
                                *****************************************
                                """);
-        do {
             System.out.print("➤ Seleccione una opción: ");
             String input = sc.nextLine();
             try {

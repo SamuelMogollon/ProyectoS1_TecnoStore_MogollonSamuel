@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DetalleVentaController {
 
-    private Conexion c = new Conexion();
+    Conexion c = Conexion.getInstancia();
 
     public double registrarDetalles(
             Venta ve,

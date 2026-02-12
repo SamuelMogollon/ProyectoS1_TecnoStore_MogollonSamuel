@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class VentaController {
 
-    private Conexion c = new Conexion();
+    Conexion c = Conexion.getInstancia();
 
     public double calcularTotalIVA(double subtotal) {
         return subtotal * 1.19;

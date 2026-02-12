@@ -22,6 +22,10 @@ public class DetalleVenta implements Serializable{
         this.celular = celular;
     }
 
+    public DetalleVenta() {
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -58,7 +62,7 @@ public class DetalleVenta implements Serializable{
         return celular;
     }
 
-    public void setId_celular(Celular celular) {
+    public void setCelular(Celular celular) {
         this.celular = celular;
     }
     

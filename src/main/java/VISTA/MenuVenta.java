@@ -28,15 +28,22 @@ public class MenuVenta {
             for (Cliente c : clientes) {
                 System.out.println("ID: " + c.getId() + " - Nombre: " + c.getNombre());
             }
+
             System.out.print("Ingrese ID del cliente: ");
+
             try {
-                int idCliente = Integer.parseInt(sc.nextLine());
+                int idCliente = sc.nextInt();
+                sc.nextLine();
+
                 cli = new GestionarClienteImpl().buscar(idCliente);
+
                 if (cli == null) {
                     System.out.println("El cliente con ese ID no está registrado. Intente de nuevo.");
                 }
-            } catch (NumberFormatException e) {
+
+            } catch (Exception e) {
                 System.out.println("Debe ingresar solo números. Intente de nuevo.");
+                sc.nextLine();
             }
         }
 
@@ -48,7 +55,7 @@ public class MenuVenta {
             }
             System.out.print("Ingrese ID del celular: ");
             try {
-                int idCelular = Integer.parseInt(sc.nextLine());
+                int idCelular = sc.nextInt();
                 ce = new GestionarCelularImpl().buscar(idCelular);
                 if (ce == null) {
                     System.out.println("El celular con ese ID no existe. Intente de nuevo.");
@@ -63,7 +70,8 @@ public class MenuVenta {
         while (cantidad <= 0 || cantidad > ce.getStock()) {
             System.out.print("Ingrese cantidad a comprar: ");
             try {
-                cantidad = Integer.parseInt(sc.nextLine());
+                cantidad = sc.nextInt();
+                sc.nextLine();
                 if (cantidad <= 0) {
                     System.out.println("La cantidad debe ser mayor a 0.");
                 } else if (cantidad > ce.getStock()) {
@@ -194,7 +202,7 @@ public class MenuVenta {
                         System.out.println("Celular no existe.");
                         datosValidos = false;
                     } else {
-                        dv.setId_celular(cel);
+                        dv.setCelular(cel);
                         dv.setSubtotal(dv.getCantidad() * cel.getPrecio());
                     }
                     break;
@@ -226,7 +234,7 @@ public class MenuVenta {
                         System.out.println("Datos inválidos.");
                         datosValidos = false;
                     } else {
-                        dv.setId_celular(cel);
+                        dv.setCelular(cel);
                         dv.setCantidad(cant);
                         dv.setSubtotal(cant * cel.getPrecio());
                     }
@@ -264,22 +272,29 @@ public class MenuVenta {
         }
 
         System.out.println("""
-    =====================================================
-    | ID |   FECHA       | ID CLIENTE |     TOTAL       |
-    =====================================================
-    """);
+================================================================================================================
+| ID | FECHA       | CLIENTE        | CELULAR           | CANT |   SUBTOTAL      |    TOTAL         |
+================================================================================================================
+""");
 
         for (Venta v : ventas) {
-            System.out.printf(
-                    "| %-2d | %-12s | %-10d | $ %-10.2f |\n",
-                    v.getId(),
-                    v.getFecha(),
-                    v.getCliente().getId(),
-                    v.getTotal()
-            );
+
+            for (DetalleVenta dv : v.getDetalleVentas()) {
+
+                System.out.printf(
+                        "| %-2d | %-12s | %-14s | %-16s | %-4d | $ %-13.2f | $ %-13.2f |\n",
+                        v.getId(),
+                        v.getFecha(),
+                        v.getCliente().getNombre(),
+                        dv.getCelular().getModelo(),
+                        dv.getCantidad(),
+                        dv.getSubtotal(),
+                        v.getTotal()
+                );
+            }
         }
 
-        System.out.println("=====================================================");
+        System.out.println("================================================================================================================");
     }
 
     private static void mostrarCelularesTabla(GestionarCelularImpl gc) {

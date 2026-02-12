@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 public class GestionarCelularImpl implements GestionCelular {
 
-    Conexion c = new Conexion();
+    Conexion c = Conexion.getInstancia();
 
     @Override
     public void guardar(Celular ce) {

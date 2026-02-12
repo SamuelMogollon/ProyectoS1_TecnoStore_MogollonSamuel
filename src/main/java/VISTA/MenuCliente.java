@@ -48,30 +48,30 @@ public class MenuCliente {
                 System.out.println("Error, opcion no valida");
                 op = new Scanner(System.in).nextInt();
             }
-            switch(op){
+            switch (op) {
                 case 1:
                     System.out.println("Ingrese el nombre: ");
                     c.setNombre(new Scanner(System.in).nextLine());
-                    System.out.println("Nombre cambiado a "+c.getNombre());
+                    System.out.println("Nombre cambiado a " + c.getNombre());
                     break;
                 case 2:
                     System.out.println("Ingrese la identificación: ");
                     c.setIdentificacion(new Scanner(System.in).nextLine());
-                    System.out.println("Identificación cambiada a "+c.getIdentificacion());
+                    System.out.println("Identificación cambiada a " + c.getIdentificacion());
                     break;
                 case 3:
                     System.out.println("Ingrese el correo: ");
                     c.setCorreo(new Scanner(System.in).nextLine());
-                    System.out.println("Correo cambiado a" +c.getCorreo());
+                    System.out.println("Correo cambiado a" + c.getCorreo());
                     break;
                 case 4:
                     System.out.println("Ingrese el telefono: ");
                     c.setTelefono(new Scanner(System.in).nextLine());
-                    System.out.println("Telefono cambiado a " +c.getTelefono());
+                    System.out.println("Telefono cambiado a " + c.getTelefono());
                     break;
             }
             gcli.actualizar(c, id);
-        }else{
+        } else {
             System.out.println("El cliente especificado no se encuentra registrado en el sistema.");
         }
     }
@@ -86,20 +86,20 @@ public class MenuCliente {
             System.out.println("No existe dicho cliente!");
         }
     }
-    
+
     private void eliminar() {
         System.out.println("Ingrese el id del cliente a eliminar: ");
         int id = new Scanner(System.in).nextInt();
         gcli.eliminar(id);
     }
-    
+
     private void listar() {
         ArrayList<Cliente> clientes = gcli.listar();
         for (Cliente c : clientes) {
             System.out.println(c);
         }
     }
-    
+
     public void menuCliente() {
         int op = 0;
         do {
@@ -122,12 +122,20 @@ public class MenuCliente {
                 op = new Scanner(System.in).nextInt();
             }
             switch (op) {
-                case 1 -> registrar();
-                case 2 -> actualizar();
-                case 3 -> eliminar();
-                case 4 -> listar();
-                case 5 -> buscar();
+                case 1 ->
+                    registrar();
+                case 2 -> {
+                    listar();
+                    actualizar();
+                }
+                case 3 ->{
+                    listar();
+                    eliminar();}
+                case 4 ->
+                    listar();
+                case 5 ->
+                    buscar();
             }
-        } while ( op != 6);
+        } while (op != 6);
     }
-}   
+}

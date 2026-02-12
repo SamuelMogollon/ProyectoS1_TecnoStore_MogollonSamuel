@@ -6,13 +6,23 @@ import java.sql.SQLException;
 
 public class Conexion {
 
-    public Connection conectar() {
-        Connection c = null;
-        try {
-            c = DriverManager.getConnection("jdbc:mysql://localhost:3306/TecnoStore", "root", "");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+    private static Conexion instancia;
+
+    private Conexion() {
+    }
+
+    public static Conexion getInstancia() {
+        if (instancia == null) {
+            instancia = new Conexion();
         }
-        return c;
+        return instancia;
+    }
+
+    public Connection conectar() throws SQLException {
+        return DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/TecnoStore",
+                "root",
+                ""
+        );
     }
 }

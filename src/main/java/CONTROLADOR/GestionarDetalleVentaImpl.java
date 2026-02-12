@@ -13,7 +13,7 @@ import java.util.List;
 
 public class GestionarDetalleVentaImpl {
 
-    private Conexion c = new Conexion();
+    Conexion c = Conexion.getInstancia();
 
     public List<DetalleVenta> listar() {
 

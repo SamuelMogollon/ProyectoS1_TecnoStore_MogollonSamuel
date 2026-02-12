@@ -1,6 +1,8 @@
 package CONTROLADOR;
 
+import MODELO.Celular;
 import MODELO.Cliente;
+import MODELO.DetalleVenta;
 import MODELO.Venta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +15,7 @@ import javax.swing.JOptionPane;
 
 public class GestionarVentaImpl {
 
-    private Conexion c = new Conexion();
+    Conexion c = Conexion.getInstancia();
 
     public List<Venta> listar() {
 
@@ -23,7 +25,9 @@ public class GestionarVentaImpl {
 
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("""
-                SELECT v.id, v.fecha, v.total, c.id AS id_cliente
+                SELECT v.id, v.fecha, v.total, 
+                       c.id AS id_cliente,
+                       c.nombre AS nombre_cliente
                 FROM ventas v
                 JOIN cliente c ON v.id_cliente = c.id
             """);
@@ -32,6 +36,7 @@ public class GestionarVentaImpl {
 
                 Cliente cli = new Cliente();
                 cli.setId(rs.getInt("id_cliente"));
+                cli.setNombre(rs.getString("nombre_cliente"));
 
                 Venta v = new Venta(
                         rs.getInt("id"),
@@ -39,6 +44,8 @@ public class GestionarVentaImpl {
                         rs.getDouble("total"),
                         cli
                 );
+
+                v.setDetalleVentas(listarDetallesPorVenta(v.getId(), con));
 
                 ventas.add(v);
             }
@@ -149,7 +156,7 @@ public class GestionarVentaImpl {
 
     public void eliminarVentaa(int idVenta) {
         try (Connection con = c.conectar()) {
-            
+
             int op = JOptionPane.showConfirmDialog(null,
                     "¿Desea eliminar la venta y sus detalles asociados?",
                     null,
@@ -174,6 +181,47 @@ public class GestionarVentaImpl {
         } catch (SQLException e) {
             System.out.println("Error al eliminar la venta: " + e.getMessage());
         }
+    }
+
+    private List<DetalleVenta> listarDetallesPorVenta(int idVenta, Connection con) {
+
+        List<DetalleVenta> detalles = new ArrayList<>();
+
+        try {
+
+            PreparedStatement ps = con.prepareStatement("""
+            SELECT dv.cantidad, dv.subtotal,
+                       ce.id AS id_celular,
+                       ce.modelo
+                FROM detalleVenta dv
+                JOIN celular ce ON dv.id_celular = ce.id
+                WHERE dv.id_venta = ?
+                                                        
+        """);
+
+            ps.setInt(1, idVenta);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Celular ce = new Celular();
+                ce.setId(rs.getInt("id_celular"));
+                ce.setModelo(rs.getString("modelo"));
+
+                DetalleVenta dv = new DetalleVenta();
+                dv.setCantidad(rs.getInt("cantidad"));
+                dv.setSubtotal(rs.getDouble("subtotal"));
+                dv.setCelular(ce);
+
+                detalles.add(dv);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error listando detalles: " + e.getMessage());
+        }
+
+        return detalles;
     }
 
 }

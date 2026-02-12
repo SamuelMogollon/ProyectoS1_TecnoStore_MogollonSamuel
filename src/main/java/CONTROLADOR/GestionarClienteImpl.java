@@ -1,7 +1,6 @@
 package CONTROLADOR;
 
 import MODELO.Cliente;
-import static java.lang.System.gc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +11,7 @@ import javax.swing.JOptionPane;
 
 public class GestionarClienteImpl implements GestionCliente {
 
-    private Conexion c = new Conexion();
+    Conexion c = Conexion.getInstancia();
 
     @Override
     public void guardar(Cliente cli) {
